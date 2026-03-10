@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Mời Kỷ Niệm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #fdf2f4;
+            --pink-main: #ffb6c1;
+            --pink-dark: #d47a8a;
+            --text-color: #5a3d42;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(253, 242, 244, 0.8)), url('anh-nen.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .floral-fall { position: fixed; top: -10%; z-index: 1; user-select: none; pointer-events: none; font-size: 1.5rem; animation: fall linear infinite; }
+        @keyframes fall { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity: 0.3; } }
+        .f1 { left: 5%; animation-duration: 10s; } .f2 { left: 15%; animation-duration: 14s; } .f3 { left: 25%; animation-duration: 12s; }
+        .f4 { left: 35%; animation-duration: 15s; } .f5 { left: 45%; animation-duration: 11s; } .f6 { left: 55%; animation-duration: 13s; }
+        .f7 { left: 65%; animation-duration: 16s; } .f8 { left: 75%; animation-duration: 10s; } .f9 { left: 85%; animation-duration: 14s; }
+
+        #cover {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-image: linear-gradient(rgba(255, 228, 230, 0.7), rgba(255, 240, 242, 0.7)), url('anh-bia.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999;
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 1s;
+        }
+        #cover h1 { font-family: 'Dancing Script', cursive; font-size: 4.5rem; color: var(--pink-dark); margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8); }
+        #cover p { font-size: 1.2rem; margin-bottom: 30px; font-weight: 600; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); }
+        .btn-open {
+            background-color: var(--pink-dark); color: white; border: none; padding: 15px 45px; font-size: 1.3rem; font-family: 'Quicksand', sans-serif; font-weight: 600;
+            border-radius: 50px; cursor: pointer; box-shadow: 0 8px 20px rgba(212, 122, 138, 0.4); animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 8px 20px rgba(212, 122, 138, 0.4); } 50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(212, 122, 138, 0.6); } 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(212, 122, 138, 0.4); } }
+        .btn-open:hover { background-color: #c46475; }
+
+        #content { max-width: 800px; margin: 0 auto; padding: 40px 20px; text-align: center; opacity: 0; position: relative; z-index: 10; transition: opacity 1.5s ease-in-out 0.5s; display: none; }
+        .show-content { opacity: 1 !important; display: block !important; }
+        .hide-cover { transform: translateY(-100%); opacity: 0; }
+
+        .banner-decor { font-size: 2rem; letter-spacing: 10px; margin-bottom: 10px; color: var(--pink-dark); }
+        h2.title { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--pink-dark); margin-top: 0; }
+        
+        /* Đã sửa phần .info-box để viền thu gọn lại vừa với chữ */
+        .info-box { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(8px); 
+            padding: 20px 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(212, 122, 138, 0.1); 
+            margin: 0 auto 40px auto; 
+            border: 2px dashed var(--pink-main); 
+            display: inline-block; 
+            text-align: left; 
+        }
+        .info-box p {
+            margin: 8px 0;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-container h3, .memory-section h3, .rsvp-section h3, .gallery-section h3 { text-align: center; color: var(--pink-dark); font-size: 2.2rem; font-family: 'Dancing Script', cursive; margin-bottom: 30px; }
+        .timeline { position: relative; max-width: 450px; margin: 0 auto 50px; text-align: left; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--pink-main); top: 0; bottom: 0; left: 20px; border-radius: 2px; }
+        .time-event { padding: 15px 0 15px 50px; position: relative; }
+        .time-event::after { content: '🎀'; position: absolute; font-size: 1.2rem; top: 12px; left: 4px; z-index: 2; background: rgba(255,255,255,0.9); border-radius: 50%; }
+        .time-label { font-weight: 600; color: var(--pink-dark); font-size: 1.3rem; }
+        .time-desc { margin-top: 8px; font-size: 1.05rem; font-weight: 500; line-height: 1.6; }
+        .time-desc strong { color: var(--pink-dark); }
+        .time-desc ul { margin-top: 5px; margin-bottom: 0; padding-left: 20px; }
+        .time-desc a { color: var(--pink-dark); font-weight: bold; text-decoration: none; border-bottom: 1px dashed var(--pink-dark); }
+
+        /* Xác nhận tham dự (RSVP) */
+        .rsvp-section { margin-top: 50px; padding: 40px 20px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 20px; box-shadow: 0 10px 30px rgba(212, 122, 138, 0.1); border: 2px solid var(--pink-light); text-align: center; }
+        .rsvp-section p { font-size: 1.1rem; margin-bottom: 25px; font-weight: 600; }
+        .btn-fb { display: inline-block; background-color: #1877F2; color: white; text-decoration: none; padding: 15px 35px; font-size: 1.2rem; font-family: 'Quicksand', sans-serif; font-weight: 600; border-radius: 30px; box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); transition: all 0.3s ease; }
+        .btn-fb:hover { background-color: #145dbf; transform: translateY(-3px); }
+
+        /* Câu dẫn chuyển tiếp */
+        .transition-text { text-align: center; font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--pink-dark); margin: 60px 20px 40px; text-shadow: 1px 1px 3px rgba(212, 122, 138, 0.2); line-height: 1.4; }
+
+        /* Timeline Kỷ Niệm */
+        .memory-timeline { position: relative; max-width: 100%; margin: 0 auto; padding-bottom: 40px; }
+        .memory-timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--pink-main); top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; }
+        .memory-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; margin-bottom: 20px; }
+        .memory-item:nth-child(odd) { left: 0; text-align: right; }
+        .memory-item:nth-child(even) { left: 50%; text-align: left; }
+        .memory-dot { position: absolute; width: 24px; height: 24px; background-color: var(--pink-dark); border: 4px solid white; border-radius: 50%; top: 15px; cursor: pointer; z-index: 2; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(212, 122, 138, 0.5); }
+        .memory-item:nth-child(odd) .memory-dot { right: -16px; }
+        .memory-item:nth-child(even) .memory-dot { left: -16px; }
+        .memory-dot:hover { transform: scale(1.3); background-color: #ff8fa3; }
+        .memory-date-label { font-size: 1.3rem; font-weight: bold; color: var(--pink-dark); cursor: pointer; transition: color 0.3s; }
+        .memory-date-label:hover { color: #ff8fa3; }
+        .memory-content { display: none; background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-top: 15px; border: 2px dashed var(--pink-main); text-align: center; animation: fadeInDown 0.4s ease-out forwards; }
+        .memory-content.active { display: block; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .memory-content img { width: 100%; max-width: 300px; border-radius: 10px; margin-bottom: 10px; object-fit: cover; }
+        .memory-content p { margin: 0; font-size: 0.95rem; font-weight: 600; line-height: 1.5; color: var(--text-color); }
+
+        /* Album */
+        .gallery-section { margin-top: 50px; padding: 40px 0; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 20px; box-shadow: 0 10px 30px rgba(212, 122, 138, 0.1); border: 2px solid var(--pink-light); overflow: hidden; }
+        .scrolling-row { width: 100%; overflow: hidden; white-space: nowrap; margin-bottom: 15px; }
+        .scrolling-track { display: inline-block; white-space: nowrap; animation: scroll-left 60s linear infinite; } 
+        .track-2 { animation-duration: 80s; } 
+        .track-3 { animation-duration: 50s; } 
+        .scrolling-track:hover { animation-play-state: paused; }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .scrolling-track img { height: 160px; width: 220px; object-fit: cover; border-radius: 12px; margin-right: 15px; display: inline-block; vertical-align: middle; border: 2px solid var(--pink-main); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .scrolling-track img:hover { transform: scale(1.05); }
+
+        @media screen and (max-width: 768px) {
+            .memory-timeline::after { left: 30px; }
+            .memory-item { width: 100%; padding-left: 70px; padding-right: 0; text-align: left !important; }
+            .memory-item:nth-child(odd), .memory-item:nth-child(even) { left: 0; }
+            .memory-item:nth-child(odd) .memory-dot, .memory-item:nth-child(even) .memory-dot { left: 14px; right: auto; }
+            .scrolling-track img { height: 120px; width: 160px; }
+            .transition-text { font-size: 2rem; margin: 40px 10px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floral-fall f1">🌸</div><div class="floral-fall f2">✨</div><div class="floral-fall f3">🎀</div>
+    <div class="floral-fall f4">🌸</div><div class="floral-fall f5">✨</div><div class="floral-fall f6">🎀</div>
+    <div class="floral-fall f7">🌸</div><div class="floral-fall f8">✨</div><div class="floral-fall f9">🎀</div>
+
+    <audio id="bg-music" loop>
+        <source src="nhac-violin.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
+
+    <div id="cover">
+        <h1>Thiệp Mời</h1>
+        <p>Nhungiuoi ơi, bạn có một lời mời vô cùng đặc biệt! ✨</p>
+        <button class="btn-open" onclick="openCard()">Hãy mở thiệp và nghe nhạc nhé</button>
+    </div>
+
+    <div id="content">
+        <div class="banner-decor">🌿🌸🎀🌸🌿</div>
+        <h2 class="title">You're Invited!</h2>
+        
+        <div class="info-box">
+            <p><strong>📍 Địa điểm:</strong> Hà Nội</p>
+            <p><strong>📅 Thời gian:</strong> 19/3/2026</p>
+        </div>
+
+        <div class="timeline-container">
+            <h3>Lịch trình chi tiết</h3>
+            <div class="timeline">
+                <div class="time-event"><div class="time-label">11:00</div><div class="time-desc">Đi ăn Steak ngon lành tại <strong>La Grupa Steak House</strong> 🥩🍷</div></div>
+                <div class="time-event"><div class="time-label">13:00</div><div class="time-desc">Đi chụp Photobooth lưu giữ kỷ niệm 📸<br><em>Các trạm dừng chân gợi ý:</em><ul><li>Hozziland</li><li>Photoism</li><li>Petite film</li><li>Hanoism</li></ul></div></div>
+                <div class="time-event"><div class="time-label">14:00</div><div class="time-desc">Đi Workshop làm đồ chung siêu vui 🎨🛠️<br>📍 <strong>Tên:</strong> tamgiac.craft<br>🏡 <strong>Địa chỉ:</strong> Ngách 17/ Ngõ 4C Đặng Văn Ngữ, Đống Đa<br>📋 <strong>List đồ:</strong> <a href="https://shorturl.at/extlC" target="_blank">Xem chi tiết tại đây</a></div></div>
+            </div>
+        </div>
+
+        <div class="rsvp-section">
+            <h3>Sự Hiện Diện Của Em Là Niềm Vui Cũng Như Là Hạnh Phúc Của Anh</h3>
+            <p>Hãy nhắn tin xác nhận để anh có sự chuẩn bị và đón tiếp em chu đáo nhất nhé!</p>
+            <a href="https://www.facebook.com/giangson.hust/" target="_blank" class="btn-fb">💌 Nhắn Tin Cho Anh Nhé</a>
+        </div>
+
+        <div class="transition-text">
+            Hãy cùng nhìn lại chặng đường 1 năm vừa qua của bọn mình nhé ❤️
+        </div>
+
+        <div class="memory-section">
+            <div class="memory-timeline">
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem1')"></div><div class="memory-date-label" onclick="toggleMemory('mem1')">19/3/2025</div><div class="memory-content" id="mem1"><img src="anh-ky-niem-1.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+1'"><p>Ngày anh và em chính thức trở thành một cặp nè, ngày anh gặp được kho báu của đời anhh</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem2')"></div><div class="memory-date-label" onclick="toggleMemory('mem2')">21/3/2025</div><div class="memory-content" id="mem2"><img src="anh-ky-niem-2.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+2'"><p>Lần đầu anh tổ chức sinh nhật cho em, sweet 21 my baby 🫶</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem3')"></div><div class="memory-date-label" onclick="toggleMemory('mem3')">19/4/2025</div><div class="memory-content" id="mem3"><img src="anh-ky-niem-3.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+3'"><p>Anniversary đầu tiên của bọn mình nè, em cún đã làm anh siêu bất ngờ bằng món quà dưới đĩa quay lúc chơi game</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem4')"></div><div class="memory-date-label" onclick="toggleMemory('mem4')">14/6/2025</div><div class="memory-content" id="mem4"><img src="anh-ky-niem-4.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+4'"><p>Lần đầu đi concert chung của bọn mình nè, day 5 siêu đáng nhớ lunnn</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem5')"></div><div class="memory-date-label" onclick="toggleMemory('mem5')">18/9/2025</div><div class="memory-content" id="mem5"><img src="anh-ky-niem-5.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+5'"><p>Anh cùng em đi nhận giải bài báo khoa học cùng em bé nì, hôm ý tí thì gặp dì Hà :))</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem6')"></div><div class="memory-date-label" onclick="toggleMemory('mem6')">25/10/2025</div><div class="memory-content" id="mem6"><img src="anh-ky-niem-6.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+6'"><p>Lần đầu anh về ra mắt gia đình em nè, được về ra mắt đúng dịp cưới chị Huyền thì đúng là bá cháy bò chét chúa lunnn</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem7')"></div><div class="memory-date-label" onclick="toggleMemory('mem7')">26/11/2025</div><div class="memory-content" id="mem7"><img src="anh-ky-niem-7.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+7'"><p>Vậy là đã đến ngày em bảo vệ khóa luận tốt nghiệp rùi, kết thúc một quá trình đồng hành, hoàn thiện khóa luận của em, và kết quả em nhận được cũng siêu trộm vía lunn</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem8')"></div><div class="memory-date-label" onclick="toggleMemory('mem8')">18/12/2025</div><div class="memory-content" id="mem8"><img src="anh-ky-niem-8.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+8'"><p>Anni tháng này của bọn mình siu đáng nhớ, vì đây là lần đầu anh và em có cơ hội đi du lịch riêng cùng nhau. Chuyến đi siêu đáng nhớ, siêu trộm vía của bọn mình, về tới giờ vẫn chưa xả hết suộc =))</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem9')"></div><div class="memory-date-label" onclick="toggleMemory('mem9')">20/12/2025</div><div class="memory-content" id="mem9"><img src="anh-ky-niem-9.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+9'"><p>Lần 2 bọn mình đi concert cùng nhau =))) lần này đi concert chill, nên bọn mình ăn mặc rấc đồ ngủ, lại còn đi như chạy show =)) sáng Tam Đảo, chiều concert là có thậc</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem10')"></div><div class="memory-date-label" onclick="toggleMemory('mem10')">25/12/2025</div><div class="memory-content" id="mem10"><img src="anh-ky-niem-10.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+10'"><p>Giáng sinh đầu tiên cùng em, anh và em đã có cơ hội đi trải nghiệm matcha bomb, cùng ăn bánh donut, trao nhau những món quà, siu đáng nhớ lunnn</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem11')"></div><div class="memory-date-label" onclick="toggleMemory('mem11')">07/01/2026</div><div class="memory-content" id="mem11"><img src="anh-ky-niem-11.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+11'"><p>Ngày em được nhận giải sinh viên 5 tốt cấp trường và cấp thành phố nè, anh rất tự hào về em, cún ạ. Bọn mình đã cùng nhau đạt được mục tiêu mà cả 2 đề ra - nhà có 2 sinh viên 5 tốt</p></div></div>
+                <div class="memory-item"><div class="memory-dot" onclick="toggleMemory('mem12')"></div><div class="memory-date-label" onclick="toggleMemory('mem12')">23/02/2026</div><div class="memory-content" id="mem12"><img src="anh-ky-niem-12.jpg" onerror="this.src='https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Anh+Ky+Niem+12'"><p>Ngày mà lần đầu anh về nhà em cún chơi Tết nì, lần này về siêu vui, siêu trộm vía, vì được mọi người trong gia đình em cún yêu thương, tiếp đón như con, như cháu trong nhà</p></div></div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <h3>Album Của Chúng Mình</h3>
+            
+            <div class="scrolling-row">
+                <div class="scrolling-track track-1">
+                    <img src="gal-1.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+1'">
+                    <img src="gal-2.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+2'">
+                    <img src="gal-3.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+3'">
+                    <img src="gal-4.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+4'">
+                    <img src="gal-5.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+5'">
+                    <img src="6.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+6'">
+                    <img src="7.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+7'">
+                    <img src="8.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+8'">
+                    <img src="9.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+9'">
+                    <img src="10.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+10'">
+                    <img src="11.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+11'">
+                    <img src="12.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+12'">
+                    <img src="13.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+13'">
+                    <img src="14.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+14'">
+                    <img src="gal-1.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+1'">
+                    <img src="gal-2.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+2'">
+                    <img src="gal-3.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+3'">
+                    <img src="gal-4.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+4'">
+                    <img src="gal-5.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+5'">
+                    <img src="6.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+6'">
+                    <img src="7.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+7'">
+                    <img src="8.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+8'">
+                    <img src="9.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+9'">
+                    <img src="10.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+10'">
+                    <img src="11.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+11'">
+                    <img src="12.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+12'">
+                    <img src="13.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+13'">
+                    <img src="14.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+14'">
+                </div>
+            </div>
+
+           <div class="scrolling-row">
+                <div class="scrolling-track track-2">
+                    <img src="15.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+15'">
+                    <img src="16.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+16'">
+                    <img src="17.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+17'">
+                    <img src="18.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+18'">
+                    <img src="19.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+19'">
+                    <img src="20.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+20'">
+                    <img src="21.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+21'">
+                    <img src="22.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+22'">
+                    <img src="23.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+23'">
+                    <img src="24.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+24'">
+                    <img src="25.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+25'">
+                    <img src="26.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+26'">
+                    <img src="27.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+27'">
+                    <img src="15.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+15'">
+                    <img src="16.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+16'">
+                    <img src="17.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+17'">
+                    <img src="18.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+18'">
+                    <img src="19.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+19'">
+                    <img src="20.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+20'">
+                    <img src="21.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+21'">
+                    <img src="22.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+22'">
+                    <img src="23.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+23'">
+                    <img src="24.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+24'">
+                    <img src="25.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+25'">
+                    <img src="26.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+26'">
+                    <img src="27.jpg" onerror="this.src='https://via.placeholder.com/220x160/d47a8a/ffffff?text=Anh+27'">
+                </div>
+            </div>
+
+            <div class="scrolling-row">
+                <div class="scrolling-track track-3">
+                    <img src="28.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+28'">
+                    <img src="29.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+29'">
+                    <img src="30.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+30'">
+                    <img src="31.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+31'">
+                    <img src="32.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+32'">
+                    <img src="33.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+33'">
+                    <img src="34.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+34'">
+                    <img src="35.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+35'">
+                    <img src="36.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+36'">
+                    <img src="37.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+37'">
+                    <img src="38.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+38'">
+                    <img src="39.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+39'">
+                    <img src="40.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+40'">
+                    <img src="28.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+28'">
+                    <img src="29.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+29'">
+                    <img src="30.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+30'">
+                    <img src="31.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+31'">
+                    <img src="32.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+32'">
+                    <img src="33.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+33'">
+                    <img src="34.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+34'">
+                    <img src="35.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+35'">
+                    <img src="36.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+36'">
+                    <img src="37.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+37'">
+                    <img src="38.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+38'">
+                    <img src="39.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+39'">
+                    <img src="40.jpg" onerror="this.src='https://via.placeholder.com/220x160/ffb6c1/ffffff?text=Anh+40'">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openCard() {
+            document.getElementById('cover').classList.add('hide-cover');
+            document.getElementById('content').classList.add('show-content');
+            var music = document.getElementById('bg-music');
+            music.volume = 0.5;
+            music.play();
+        }
+
+        function toggleMemory(id) {
+            var content = document.getElementById(id);
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+            } else {
+                content.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
